@@ -10,11 +10,11 @@
 
 ## Installation
 
-Add `gates` as a dependency in your `Cargo.toml`:
+Add `gates-rs` as a dependency in your `Cargo.toml`:
 
 ```toml
 [dependencies]
-gates = "0.1.0-beta"
+gates-rs = "0.1.0-beta"
 ```
 
 ## Usage
