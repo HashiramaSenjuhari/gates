@@ -2,6 +2,8 @@
 name = "rusty_gate"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+description = "lightweight and efficient web framework in Rust designed for handling HTTP requests with built-in gatekeeping middleware."
 
 [dependencies]
 flate2 = "1.1.0"
