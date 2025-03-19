@@ -1,0 +1,10 @@
+rpc
+core
+(modal (store)
+context
+event)
+auth
+
+file should not dependent on each other but can depend unique
+webserver -> rpc -> utils
+but utils !-> rpc

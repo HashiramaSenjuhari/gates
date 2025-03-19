@@ -1,0 +1,10 @@
+[package]
+name = "gates-rs"
+version = "0.1.0-beta"
+edition = "2024"
+
+[dependencies]
+prime = { path = "./core", version = "0.1.2-beta" }
+
+[workspace]
+members = ["core", "main"]
