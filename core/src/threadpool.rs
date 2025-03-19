@@ -5,7 +5,7 @@ use std::{
 
 pub struct GatesThread {
     sender: mpsc::Sender<Job>,
-    size: usize,
+    // size: usize,
 }
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
@@ -34,7 +34,7 @@ impl GatesThread {
         }
         GatesThread {
             sender: tx,
-            size: size,
+            // size: size,
         }
     }
     pub fn execute<F>(&self, task: F)
