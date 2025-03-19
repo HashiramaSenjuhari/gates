@@ -1,1 +1,1 @@
-pub use primes;
+pub use prime_lib;
