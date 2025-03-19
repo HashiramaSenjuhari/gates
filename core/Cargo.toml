@@ -1,5 +1,5 @@
 [package]
-name = "rusty-gate"
+name = "nous"
 version = "0.1.0"
 edition = "2024"
 description = "lightweight and efficient web framework in Rust designed for handling HTTP requests with built-in gatekeeping middleware."
