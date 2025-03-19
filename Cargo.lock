@@ -137,7 +137,7 @@ dependencies = [
  "http-scrap",
  "quote",
  "rusty-format",
- "rusty_core",
+ "rusty_gate",
  "serde",
  "serde_json",
  "syn",
@@ -169,7 +169,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4cbb6742f004c3e8adf63e47618f59ce92751cca93bc72796e752f2142cc781f"
 
 [[package]]
-name = "rusty_core"
+name = "rusty_gate"
 version = "0.1.0"
 dependencies = [
  "flate2",
