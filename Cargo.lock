@@ -129,22 +129,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7edddbd0b52d732b21ad9a5fab5c704c14cd949e5e9a1ec5929a24fded1b904c"
 
 [[package]]
-name = "prime"
-version = "0.1.0"
-dependencies = [
- "brotli",
- "flate2",
- "http-scrap",
- "quote",
- "rusty-format",
- "rusty_gate 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde",
- "serde_json",
- "syn",
- "zstd",
-]
-
-[[package]]
 name = "proc-macro2"
 version = "1.0.94"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -167,6 +151,22 @@ name = "rusty-format"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4cbb6742f004c3e8adf63e47618f59ce92751cca93bc72796e752f2142cc781f"
+
+[[package]]
+name = "rusty-gate"
+version = "0.1.0"
+dependencies = [
+ "brotli",
+ "flate2",
+ "http-scrap",
+ "quote",
+ "rusty-format",
+ "rusty_gate 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde",
+ "serde_json",
+ "syn",
+ "zstd",
+]
 
 [[package]]
 name = "rusty_gate"
