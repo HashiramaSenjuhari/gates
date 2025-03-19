@@ -137,7 +137,6 @@ dependencies = [
  "http-scrap",
  "quote",
  "rusty-format",
- "rusty_gate",
  "serde",
  "serde_json",
  "syn",
