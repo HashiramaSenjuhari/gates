@@ -11,8 +11,8 @@ use threadpool::GatesThread;
 pub use zstd;
 // use tokio_tungstenite::tungstenite::WebSocket;
 mod threadpool;
-// pub use rusty_gate::gates;
 pub use rusty_format::cors::Cors;
+pub use rusty_gate::gates;
 
 #[derive(Debug)]
 pub struct GatesResponse {
