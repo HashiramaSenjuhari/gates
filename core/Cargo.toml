@@ -11,7 +11,7 @@ rusty-format = "0.1.4"
 serde = "1.0.218"
 serde_json = "1.0.139"
 syn = { version = "2.0.98", features = ["full", "extra-traits"] }
-gate = { path = "../main", version = "0.1.0" }
+my_gate = { path = "../main", version = "0.1.0" }
 brotli = "7.0.0"
 zstd = "0.13.3"
 # tokio = { version = "1.43.0", features = ["full"] }
