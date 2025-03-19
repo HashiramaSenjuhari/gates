@@ -62,7 +62,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "core_lib"
+name = "corelib"
 version = "0.1.0"
 dependencies = [
  "flate2",
@@ -146,7 +146,7 @@ name = "prime"
 version = "0.1.0"
 dependencies = [
  "brotli",
- "core_lib",
+ "corelib",
  "flate2",
  "http-scrap",
  "quote",
