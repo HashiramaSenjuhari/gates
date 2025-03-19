@@ -1,1 +1,1 @@
-pub use prime;
+pub use primes;
