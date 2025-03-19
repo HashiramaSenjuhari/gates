@@ -2,10 +2,6 @@
 name = "prime"
 version = "0.1.2-beta"
 edition = "2024"
-description = "creating faster web exploration framework"
-license = "MIT"
-authors = ["hariprasath"]
-keywords = ["server", "network", "http"]
 
 [dependencies]
 flate2 = "1.1.0"
