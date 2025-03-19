@@ -94,13 +94,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gates-rs"
-version = "0.1.0-beta"
-dependencies = [
- "prime-lib",
-]
-
-[[package]]
 name = "http-scrap"
 version = "0.1.1134"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -149,7 +142,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7edddbd0b52d732b21ad9a5fab5c704c14cd949e5e9a1ec5929a24fded1b904c"
 
 [[package]]
-name = "prime-lib"
+name = "prime"
 version = "0.1.2"
 dependencies = [
  "brotli",

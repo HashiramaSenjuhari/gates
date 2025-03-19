@@ -1,12 +1,2 @@
-[package]
-name = "gates-rs"
-version = "0.1.0-beta"
-edition = "2024"
-description = "Framework for exploration"
-keywords = ["server", "http"]
-
-[dependencies]
-prime-lib = { path = "./core" }
-
 [workspace]
 members = ["core", "main"]
