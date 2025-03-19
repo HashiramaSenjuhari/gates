@@ -6,7 +6,7 @@ description = "Framework for exploration"
 keywords = ["server", "http"]
 
 [dependencies]
-prime = { path = "./core", version = "0.1.2-beta" }
+primes = { path = "./core", version = "0.1.2" }
 
 [workspace]
 members = ["core", "main"]
