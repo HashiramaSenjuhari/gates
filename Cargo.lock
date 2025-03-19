@@ -62,19 +62,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "corelib"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "http-scrap",
- "quote",
- "rusty-format",
- "serde",
- "serde_json",
- "syn",
-]
-
-[[package]]
 name = "crc32fast"
 version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -146,11 +133,11 @@ name = "prime"
 version = "0.1.0"
 dependencies = [
  "brotli",
- "corelib",
  "flate2",
  "http-scrap",
  "quote",
  "rusty-format",
+ "rusty_core",
  "serde",
  "serde_json",
  "syn",
@@ -180,6 +167,19 @@ name = "rusty-format"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4cbb6742f004c3e8adf63e47618f59ce92751cca93bc72796e752f2142cc781f"
+
+[[package]]
+name = "rusty_core"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "http-scrap",
+ "quote",
+ "rusty-format",
+ "serde",
+ "serde_json",
+ "syn",
+]
 
 [[package]]
 name = "ryu"

@@ -11,7 +11,7 @@ use threadpool::GatesThread;
 pub use zstd;
 // use tokio_tungstenite::tungstenite::WebSocket;
 mod threadpool;
-pub use corelib::gates;
+pub use rusty_core::gates;
 pub use rusty_format::cors::Cors;
 
 #[derive(Debug)]
