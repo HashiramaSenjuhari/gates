@@ -62,6 +62,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "core_lib"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "http-scrap",
+ "quote",
+ "rusty-format",
+ "serde",
+ "serde_json",
+ "syn",
+]
+
+[[package]]
 name = "crc32fast"
 version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -123,19 +136,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "my_gate"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "http-scrap",
- "quote",
- "rusty-format",
- "serde",
- "serde_json",
- "syn",
-]
-
-[[package]]
 name = "pkg-config"
 version = "0.3.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -146,9 +146,9 @@ name = "prime"
 version = "0.1.0"
 dependencies = [
  "brotli",
+ "core_lib",
  "flate2",
  "http-scrap",
- "my_gate",
  "quote",
  "rusty-format",
  "serde",
