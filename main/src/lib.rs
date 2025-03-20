@@ -97,6 +97,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   use nous::Response;
                   use nous::HashMap;
                   use nous::Write;
+                  
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
                           use nous::HashMap;
@@ -1646,65 +1647,11 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                       use nous::TcpStream;
                       use nous::GatesRequest;
                       use std::io::BufWriter;
-                      use nous::flate2::write::GzEncoder;
-                      use nous::flate2::Compression;
-                      use nous::brotli::CompressorWriter;
-                      use std::io::Cursor;
-                      use nous::zstd::encode_all;
                       use nous::Write;
                       // use nous::GateKeeperResponse;
                       // use crate::#function;
                       // use crate::#fn_name;
                       use nous::Return;
-                      pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut b = GzEncoder::new(Vec::new(), Compression::default());
-                          b.write_all(&billionaire.message.as_bytes()).unwrap();
-                          let b = b.finish();
-                          if let Ok(response) = b {
-                              for b in response.chunks(6) {
-                                  // hexa of chunk\r\n
-                                  // chunk\r\n
-                                  let billionaire = format!("{:X}\r\n", b.len());
-                                  // println!("{}",billionaire);
-                                  stream.write_all(billionaire.as_bytes()).unwrap();
-                                  stream.write_all(b).unwrap();
-                                  // println!("{:?}",b);
-                                  stream.write_all("\r\n".as_bytes()).unwrap();
-                              }
-                          }
-                      }
-                      pub fn brotli_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut b = Vec::new();
-                          {
-                              let mut b = CompressorWriter::new(&mut b, 4096, 4, 22);
-                              b.write_all(billionaire.message.as_bytes()).unwrap();
-                              b.flush().unwrap();
-                          }
-                            for b in b.chunks(6) {
-                              // hexa of chunk\r\n
-                              // chunk\r\n
-                              let billionaire = format!("{:X}\r\n", b.len());
-                              // println!("{}",billionaire);
-                              stream.write_all(billionaire.as_bytes()).unwrap();
-                              stream.write_all(b).unwrap();
-                              // println!("{:?}",b);
-                              stream.write_all("\r\n".as_bytes()).unwrap();
-                            }
-                      }
-                      pub fn zstd_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut input = Cursor::new(&billionaire.message);
-                          let b = encode_all(&mut input, 3).unwrap();
-                            for b in b.chunks(6) {
-                              // hexa of chunk\r\n
-                              // chunk\r\n
-                              let billionaire = format!("{:X}\r\n", b.len());
-                              // println!("{}",billionaire);
-                              stream.write_all(billionaire.as_bytes()).unwrap();
-                              stream.write_all(b).unwrap();
-                              // println!("{:?}",b);
-                              stream.write_all("\r\n".as_bytes()).unwrap();
-                            }
-                      }
                       pub fn param_parser(parts:Vec<&str>,user_parts:Vec<&str>, bhash:&mut HashMap<String,String>){
                           for (b, billion) in parts.iter().zip(user_parts.iter()) {
                               // println!("{}{}", b, billion);
@@ -1766,14 +1713,14 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   
   
                   let b: Vec<&str> = billionaire.message.split_whitespace().collect();
-                  // println!("{:?}", b);
+                  println!("{:?}", b);
                   response.push_str(&format!("\r\n"));
-                  // println!("{:?}",response);
+                  println!("{:?}",response);
                   chunks.write_all(response.as_bytes()).unwrap();
               
                   for b in b {
                       let billionaire = format!("data: {}\n\n", b);
-                      // println!("{:?}",billionaire);
+                      println!("{:?}",billionaire);
                       chunks.write_all(&billionaire.as_bytes()).unwrap();
                       chunks.flush().unwrap();
                   }
@@ -1862,7 +1809,9 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                               return;
                             }
                             if let GateKeeperResponse::Next = gatekeeper {
+                              // println!("{}","billionaire");
                               let response = {#fn_name(&billionaire)};
+                              // println!("{:?}",response);
                               if let GateKeeperResponse::Response(response) = response {
                                 bucket::zen(response,stream,header,compression,secure_header);
                               }   
@@ -2767,6 +2716,9 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                         response.push_str(&format!("{}\r\n",secure_header));
                         // println!("{}",billionaire);
                       }
+                      if secure_header.len() != 0 {
+                        response.push_str(&format!("{}\r\n",secure_header));
+                      }
                       // println!("{:?}",header); 
                       if header.len() >= 1 {
                         for header in header.iter(){
@@ -3067,9 +3019,8 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                                   X-Content-Type-Options: nosniff\r\n\
                                   Transfer-Encoding: chunked\r\n",&billionaire.status);
                       
-                                            if secure_header.len() != 0 {
+                      if secure_header.len() != 0 {
                         response.push_str(&format!("{}\r\n",secure_header));
-                        // println!("{}",billionaire);
                       }
                       // println!("{:?}",header); 
                       if header.len() >= 1 {
@@ -3373,9 +3324,8 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                                   X-Content-Type-Options: nosniff\r\n\
                                   Transfer-Encoding: chunked\r\n",&billionaire.status);
                       
-                                            if secure_header.len() != 0 {
+                      if secure_header.len() != 0 {
                         response.push_str(&format!("{}\r\n",secure_header));
-                        // println!("{}",billionaire);
                       }
                       // println!("{:?}",header); 
                       if header.len() >= 1 {
@@ -3587,65 +3537,11 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                       use nous::TcpStream;
                       use nous::GatesRequest;
                       use std::io::BufWriter;
-                      use nous::flate2::write::GzEncoder;
-                      use nous::flate2::Compression;
-                      use nous::brotli::CompressorWriter;
-                      use std::io::Cursor;
-                      use nous::zstd::encode_all;
                       use nous::Write;
                       use nous::GateKeeperResponse;
                       // use crate::#function;
                       // use crate::#fn_name;
                       use nous::Return;
-                      pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut b = GzEncoder::new(Vec::new(), Compression::default());
-                          b.write_all(&billionaire.message.as_bytes()).unwrap();
-                          let b = b.finish();
-                          if let Ok(response) = b {
-                              for b in response.chunks(6) {
-                                  // hexa of chunk\r\n
-                                  // chunk\r\n
-                                  let billionaire = format!("{:X}\r\n", b.len());
-                                  // println!("{}",billionaire);
-                                  stream.write_all(billionaire.as_bytes()).unwrap();
-                                  stream.write_all(b).unwrap();
-                                  // println!("{:?}",b);
-                                  stream.write_all("\r\n".as_bytes()).unwrap();
-                              }
-                          }
-                      }
-                      pub fn brotli_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut b = Vec::new();
-                          {
-                              let mut b = CompressorWriter::new(&mut b, 4096, 4, 22);
-                              b.write_all(billionaire.message.as_bytes()).unwrap();
-                              b.flush().unwrap();
-                          }
-                            for b in b.chunks(6) {
-                              // hexa of chunk\r\n
-                              // chunk\r\n
-                              let billionaire = format!("{:X}\r\n", b.len());
-                              // println!("{}",billionaire);
-                              stream.write_all(billionaire.as_bytes()).unwrap();
-                              stream.write_all(b).unwrap();
-                              // println!("{:?}",b);
-                              stream.write_all("\r\n".as_bytes()).unwrap();
-                            }
-                      }
-                      pub fn zstd_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
-                          let mut input = Cursor::new(&billionaire.message);
-                          let b = encode_all(&mut input, 3).unwrap();
-                            for b in b.chunks(6) {
-                              // hexa of chunk\r\n
-                              // chunk\r\n
-                              let billionaire = format!("{:X}\r\n", b.len());
-                              // println!("{}",billionaire);
-                              stream.write_all(billionaire.as_bytes()).unwrap();
-                              stream.write_all(b).unwrap();
-                              // println!("{:?}",b);
-                              stream.write_all("\r\n".as_bytes()).unwrap();
-                            }
-                      }
                       pub fn param_parser(parts:Vec<&str>,user_parts:Vec<&str>, bhash:&mut HashMap<String,String>){
                           for (b, billion) in parts.iter().zip(user_parts.iter()) {
                               // println!("{}{}", b, billion);
@@ -3671,6 +3567,9 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                               Content-Type: text/event-stream\r\n",&billionaire.status);
                               // Transfer-Encoding: chunked\r\n
                   
+                  if secure_header.len() != 0 {
+                      response.push_str(&format!("{}\r\n",secure_header));
+                  }
                   // println!("{:?}",header); 
                   if header.len() >= 1 {
                     for header in header.iter(){
@@ -3691,7 +3590,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                     response.push_str(&format!("Keep-Alive: timeout=10, max=100\r\n"));
                   }
                   if !response.contains("Cache-Control: "){
-                    response.push_str(&format!("Cache-Control: public; max-age: 5; stale-while-revalidate: 10\r\n"));
+                    response.push_str(&format!("Cache-Control: no-cache; no-store; must-revalidate;\r\n"));
                   }
                   // if let Some(res) = &billionaire.content_type {
                   // //   println!("{}",res);
@@ -3703,14 +3602,14 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   
   
                   let b: Vec<&str> = billionaire.message.split_whitespace().collect();
-                  // println!("{:?}", b);
+                  println!("{:?}", b);
                   response.push_str(&format!("\r\n"));
-                  // println!("{:?}",response);
+                  println!("{:?}",response);
                   chunks.write_all(response.as_bytes()).unwrap();
               
                   for b in b {
                       let billionaire = format!("data: {}\n\n", b);
-                      // println!("{:?}",billionaire);
+                      println!("{:?}",billionaire);
                       chunks.write_all(&billionaire.as_bytes()).unwrap();
                       chunks.flush().unwrap();
                   }
@@ -3762,6 +3661,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
 
                           // println!("{}","peek");
                           if let GateKeeperResponse::Response(response) = response {
+                            println!("{}","from sse billionaire");
                             bucket::zen(response,stream,header,compression,secure_header);
                           }   
                           else if let GateKeeperResponse::Redirect(code,redirect) = response {
@@ -3931,9 +3831,8 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                                   X-Content-Type-Options: nosniff\r\n\
                                   Transfer-Encoding: chunked\r\n",&billionaire.status);
                       
-                                            if secure_header.len() != 0 {
+                      if secure_header.len() != 0 {
                         response.push_str(&format!("{}\r\n",secure_header));
-                        // println!("{}",billionaire);
                       }
                       // println!("{:?}",header); 
                       if header.len() >= 1 {
