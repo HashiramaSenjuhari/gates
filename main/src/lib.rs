@@ -64,54 +64,55 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
         match method.as_str() {
           "GET" => {
               quote! {
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // use prime::GateKeeperResponse;
-                  use prime::TcpStream;
-                  use prime::Response;
-                  use prime::HashMap;
-                  use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // use nous::GateKeeperResponse;
+                  use nous::GateKeeperResponse;
+                  use nous::TcpStream;
+                  use nous::Response;
+                  use nous::HashMap;
+                  use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::HashMap;
-                          // use prime::GateKeeperResponse;
-                          use prime::Return;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::HashMap;
+                          // use nous::GateKeeperResponse;
+                          use nous::Return;
   
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
@@ -486,33 +487,33 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "POST" => {
               quote! {
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // use prime::GateKeeperResponse;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // use nous::GateKeeperResponse;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
-                          use prime::Return;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -863,39 +864,39 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "PUT" => {
               quote! {
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -1244,39 +1245,39 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "DELETE" => {
               quote! {
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -1625,36 +1626,36 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "text/event-stream" => {
             quote! {
-              // use prime::HashMap;
-              // use prime::Response;
-              // use prime::TcpStream;
-              // use prime::GatesRequest;
+              // use nous::HashMap;
+              // use nous::Response;
+              // use nous::TcpStream;
+              // use nous::GatesRequest;
               // use std::io::BufWriter;
-              // use prime::flate2::write::GzEncoder;
-              // use prime::flate2::Compression;
-              // use prime::brotli::CompressorWriter;
+              // use nous::flate2::write::GzEncoder;
+              // use nous::flate2::Compression;
+              // use nous::brotli::CompressorWriter;
               // use std::io::Cursor;
-              // use prime::zstd::encode_all;
-              // use prime::Write;
-              // use prime::GateKeeperResponse;
+              // use nous::zstd::encode_all;
+              // use nous::Write;
+              // use nous::GateKeeperResponse;
 
               pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                   mod bucket {
-                      use prime::HashMap;
-                      use prime::Response;
-                      use prime::TcpStream;
-                      use prime::GatesRequest;
+                      use nous::HashMap;
+                      use nous::Response;
+                      use nous::TcpStream;
+                      use nous::GatesRequest;
                       use std::io::BufWriter;
-                      use prime::flate2::write::GzEncoder;
-                      use prime::flate2::Compression;
-                      use prime::brotli::CompressorWriter;
+                      use nous::flate2::write::GzEncoder;
+                      use nous::flate2::Compression;
+                      use nous::brotli::CompressorWriter;
                       use std::io::Cursor;
-                      use prime::zstd::encode_all;
-                      use prime::Write;
-                      // use prime::GateKeeperResponse;
+                      use nous::zstd::encode_all;
+                      use nous::Write;
+                      // use nous::GateKeeperResponse;
                       // use crate::#function;
                       // use crate::#fn_name;
-                      use prime::Return;
+                      use nous::Return;
                       pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                           let mut b = GzEncoder::new(Vec::new(), Compression::default());
                           b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -1965,43 +1966,43 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           _ => {
               quote! {
-                  use prime::TcpStream;
-                  use prime::Response;
-                  use prime::HashMap;
-                  use prime::Write;
-                  //                   use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  use nous::TcpStream;
+                  use nous::Response;
+                  use nous::HashMap;
+                  use nous::Write;
+                  //                   use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -2315,48 +2316,49 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
         match method.as_str() {
           "GET" => {
               quote! {
-                  // use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;                  use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;                  use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  use prime::TcpStream;
-                  use prime::Response;
-                  use prime::HashMap;
-                  use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  use nous::TcpStream;
+                  use nous::Response;
+                  use nous::HashMap;
+                  use nous::Write;
+                  use nous::GateKeeperResponse;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          use prime::GateKeeperResponse;
-                          use prime::Return;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          use nous::GateKeeperResponse;
+                          use nous::Return;
   
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
@@ -2652,41 +2654,41 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "POST" => {
               quote! {
-                                    // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // // use prime::Write;                  use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                                    // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // // use nous::Write;                  use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
-                          use prime::GateKeeperResponse;
-                          use prime::Return;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
+                          use nous::GateKeeperResponse;
+                          use nous::Return;
 
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
@@ -2956,42 +2958,42 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "PUT" => {
               quote! {
-                  //                   use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // // use prime::Write;                  use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  //                   use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // // use nous::Write;                  use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -3262,42 +3264,42 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "DELETE" => {
               quote! {
-                  //                   use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // // use prime::Write;                  use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  //                   use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // // use nous::Write;                  use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -3566,35 +3568,35 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           "text/event-stream" => {
             quote! {
-              // use prime::HashMap;
-              // use prime::Response;
-              // use prime::TcpStream;
-              // use prime::GatesRequest;
+              // use nous::HashMap;
+              // use nous::Response;
+              // use nous::TcpStream;
+              // use nous::GatesRequest;
               // use std::io::BufWriter;
-              // use prime::flate2::write::GzEncoder;
-              // use prime::flate2::Compression;
-              // use prime::brotli::CompressorWriter;
+              // use nous::flate2::write::GzEncoder;
+              // use nous::flate2::Compression;
+              // use nous::brotli::CompressorWriter;
               // use std::io::Cursor;
-              // use prime::zstd::encode_all;
-              // use prime::Write;
-              // use prime::GateKeeperResponse;
+              // use nous::zstd::encode_all;
+              // use nous::Write;
+              // use nous::GateKeeperResponse;
               pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                   mod bucket {
-                      use prime::HashMap;
-                      use prime::Response;
-                      use prime::TcpStream;
-                      use prime::GatesRequest;
+                      use nous::HashMap;
+                      use nous::Response;
+                      use nous::TcpStream;
+                      use nous::GatesRequest;
                       use std::io::BufWriter;
-                      use prime::flate2::write::GzEncoder;
-                      use prime::flate2::Compression;
-                      use prime::brotli::CompressorWriter;
+                      use nous::flate2::write::GzEncoder;
+                      use nous::flate2::Compression;
+                      use nous::brotli::CompressorWriter;
                       use std::io::Cursor;
-                      use prime::zstd::encode_all;
-                      use prime::Write;
-                      use prime::GateKeeperResponse;
+                      use nous::zstd::encode_all;
+                      use nous::Write;
+                      use nous::GateKeeperResponse;
                       // use crate::#function;
                       // use crate::#fn_name;
-                      use prime::Return;
+                      use nous::Return;
                       pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                           let mut b = GzEncoder::new(Vec::new(), Compression::default());
                           b.write_all(&billionaire.message.as_bytes()).unwrap();
@@ -3820,42 +3822,42 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
           }
           _ => {
               quote! {
-                  //                   use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // // use prime::Write;                  use prime::HashMap;
-                  // use prime::Response;
-                  // // use prime::TcpStream;
-                  // use prime::GatesRequest;
+                  //                   use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // // use nous::Write;                  use nous::HashMap;
+                  // use nous::Response;
+                  // // use nous::TcpStream;
+                  // use nous::GatesRequest;
                   // use std::io::BufWriter;
-                  // use prime::flate2::write::GzEncoder;
-                  // use prime::flate2::Compression;
-                  // use prime::brotli::CompressorWriter;
+                  // use nous::flate2::write::GzEncoder;
+                  // use nous::flate2::Compression;
+                  // use nous::brotli::CompressorWriter;
                   // use std::io::Cursor;
-                  // use prime::zstd::encode_all;
-                  // use prime::Write;
-                  // // use prime::GateKeeperResponse;
-                  // use prime::TcpStream;
-                  // use prime::Response;
-                  // use prime::HashMap;
-                  // use prime::Write;
+                  // use nous::zstd::encode_all;
+                  // use nous::Write;
+                  // // use nous::GateKeeperResponse;
+                  // use nous::TcpStream;
+                  // use nous::Response;
+                  // use nous::HashMap;
+                  // use nous::Write;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
-                          use prime::HashMap;
-                          use prime::Response;
-                          use prime::TcpStream;
-                          use prime::GatesRequest;
+                          use nous::HashMap;
+                          use nous::Response;
+                          use nous::TcpStream;
+                          use nous::GatesRequest;
                           use std::io::BufWriter;
-                          use prime::flate2::write::GzEncoder;
-                          use prime::flate2::Compression;
-                          use prime::brotli::CompressorWriter;
+                          use nous::flate2::write::GzEncoder;
+                          use nous::flate2::Compression;
+                          use nous::brotli::CompressorWriter;
                           use std::io::Cursor;
-                          use prime::zstd::encode_all;
-                          use prime::Write;
-                          // use prime::GateKeeperResponse;
+                          use nous::zstd::encode_all;
+                          use nous::Write;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
-                          use prime::Return;
+                          use nous::Return;
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
                               let mut b = GzEncoder::new(Vec::new(), Compression::default());
                               b.write_all(&billionaire.message.as_bytes()).unwrap();
