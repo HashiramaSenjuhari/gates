@@ -97,7 +97,6 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   use nous::Response;
                   use nous::HashMap;
                   use nous::Write;
-                  
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
                           use nous::HashMap;
