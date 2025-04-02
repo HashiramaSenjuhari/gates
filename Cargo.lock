@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "nous"
-version = "0.1.5-beta"
+version = "0.1.7-beta"
 dependencies = [
  "brotli",
  "flate2",
