@@ -317,7 +317,7 @@ dependencies = [
  "http-scrap",
  "quote",
  "rusty-format",
- "rusty_gate 0.1.1",
+ "rusty_gate 0.1.2-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "rusty_gatesdope 0.1.1-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "serde",
  "serde_json",
@@ -430,9 +430,7 @@ checksum = "4cbb6742f004c3e8adf63e47618f59ce92751cca93bc72796e752f2142cc781f"
 
 [[package]]
 name = "rusty_gate"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "326d3851ef2ec5fc2268dbb956406ddcd481405638272e9191bc79aec7deac49"
+version = "0.1.2-beta"
 dependencies = [
  "flate2",
  "http-scrap",
@@ -446,6 +444,8 @@ dependencies = [
 [[package]]
 name = "rusty_gate"
 version = "0.1.2-beta"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73d8f87fbd8549b0196c9e76c1b92133c0a9855a364391bdc6379a01feaa8e98"
 dependencies = [
  "flate2",
  "http-scrap",
