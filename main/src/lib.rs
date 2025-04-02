@@ -75,7 +75,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -92,7 +92,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use nous::zstd::encode_all;
                   // use nous::Write;
                   // use nous::GateKeeperResponse;
-                  use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   use nous::TcpStream;
                   use nous::Response;
                   use nous::HashMap;
@@ -875,7 +875,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -1256,7 +1256,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -1929,7 +1929,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -2275,7 +2275,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;                  use nous::HashMap;
+                  // use nous::GateKeeperResponse;                  use nous::HashMap;
                   // use nous::Response;
                   // // use nous::TcpStream;
                   // use nous::GatesRequest;
@@ -2286,12 +2286,12 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   use nous::TcpStream;
                   use nous::Response;
                   use nous::HashMap;
                   use nous::Write;
-                  use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   pub fn #fn_name(mut stream:&TcpStream,response:&Response,compression:&str,secure_header:&str,header:Vec<(&&str, &&str)>) {
                       mod bucket {
                           use nous::HashMap;
@@ -2305,7 +2305,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                           use std::io::Cursor;
                           use nous::zstd::encode_all;
                           use nous::Write;
-                          use nous::GateKeeperResponse;
+                          // use nous::GateKeeperResponse;
                           use nous::Return;
   
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
@@ -2616,7 +2616,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -2635,7 +2635,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                           use nous::zstd::encode_all;
                           use nous::Write;
                           // use nous::GateKeeperResponse;
-                          use nous::GateKeeperResponse;
+                          // use nous::GateKeeperResponse;
                           use nous::Return;
 
                           pub fn gzip_compress(billionaire:&Return,stream:&mut BufWriter<&mut &TcpStream>) {
@@ -2923,7 +2923,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -2941,7 +2941,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                           use std::io::Cursor;
                           use nous::zstd::encode_all;
                           use nous::Write;
-                          use nous::GateKeeperResponse;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
                           use nous::Return;
@@ -3228,7 +3228,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
@@ -3246,7 +3246,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                           use std::io::Cursor;
                           use nous::zstd::encode_all;
                           use nous::Write;
-                          use nous::GateKeeperResponse;
+                          // use nous::GateKeeperResponse;
                           // use crate::#function;
                           // use crate::#fn_name;
                           use nous::Return;
@@ -3537,7 +3537,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                       use nous::GatesRequest;
                       use std::io::BufWriter;
                       use nous::Write;
-                      use nous::GateKeeperResponse;
+                      // use nous::GateKeeperResponse;
                       // use crate::#function;
                       // use crate::#fn_name;
                       use nous::Return;
@@ -3735,7 +3735,7 @@ pub fn gates(attr: TokenStream, func: TokenStream) -> TokenStream {
                   // use std::io::Cursor;
                   // use nous::zstd::encode_all;
                   // use nous::Write;
-                  // // use nous::GateKeeperResponse;
+                  // use nous::GateKeeperResponse;
                   // use nous::TcpStream;
                   // use nous::Response;
                   // use nous::HashMap;
