@@ -443,7 +443,7 @@ dependencies = [
 
 [[package]]
 name = "rusty_gatesdope"
-version = "0.1.0"
+version = "0.1.1-beta"
 dependencies = [
  "quote",
  "syn",
