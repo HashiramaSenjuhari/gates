@@ -2,6 +2,8 @@
 name = "rusty_gatesdope"
 version = "0.1.0"
 edition = "2024"
+description = "util for nous"
+authors = ["hariprasath"]
 
 [dependencies]
 quote = "1.0.40"
