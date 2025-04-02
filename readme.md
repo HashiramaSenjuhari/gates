@@ -5,6 +5,7 @@
 ## Features
 
 - Supports **GET, POST, PUT, DELETE, SSE** endpoints
+- **Websocket**
 - **Gatekeeping middleware** for request handling
 - **Response handling** with status codes, messages, and redirections
 
@@ -20,6 +21,21 @@ nous = "0.1.0-beta"
 ## Usage
 
 ### Defining Routes
+
+## WebSocket
+
+```rust
+#[gates_dope("/billionairegreathari")]
+fn b(b: &mut GatesDope) {
+    b.send("billionairegreathariprasath".into());
+    match b.read().unwrap() {
+        Message::Text(b) => {
+            println!("{}", b);
+        }
+        _ => {}
+    }
+}
+```
 
 ```rust
 // POST request handler
