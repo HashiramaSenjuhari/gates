@@ -318,7 +318,7 @@ dependencies = [
  "quote",
  "rusty-format",
  "rusty_gate",
- "rusty_gatesdope 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rusty_gatesdope",
  "serde",
  "serde_json",
  "syn",
@@ -444,16 +444,6 @@ dependencies = [
 [[package]]
 name = "rusty_gatesdope"
 version = "0.1.0"
-dependencies = [
- "quote",
- "syn",
-]
-
-[[package]]
-name = "rusty_gatesdope"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae713c567ab79c901d3815f15ec50af84796784783c919cbed9afe391b3ed6c8"
 dependencies = [
  "quote",
  "syn",

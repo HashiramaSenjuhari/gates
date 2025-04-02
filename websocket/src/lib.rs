@@ -10,7 +10,6 @@ pub fn gates_dope(attr: TokenStream, func: TokenStream) -> TokenStream {
     println!("{}", b);
     quote! {
       // use tokio_tungstenite::tungstenite::WebSocket;
-      use nous::{PrependBuffer,WebSocket};
       pub fn #name(explore:&mut GatesDope,path:String){
         // println!("{}",path.to_string());
         let billionaires = #b.replace("\"","");
