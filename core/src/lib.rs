@@ -1,3 +1,4 @@
+use std::io::Cursor;
 pub use std::{
     collections::HashMap,
     io::{Read, Write},
@@ -8,11 +9,12 @@ pub use brotli;
 pub use flate2;
 pub use http_scrap::{HMap, QMap, Response};
 use threadpool::GatesThread;
+pub use tokio_tungstenite::tungstenite::{Message, WebSocket, accept};
 pub use zstd;
-// use tokio_tungstenite::tungstenite::WebSocket;
 mod threadpool;
 pub use rusty_format::cors::Cors;
 pub use rusty_gate::gates;
+pub use rusty_gatesdope::gates_dope;
 
 #[derive(Debug)]
 pub struct GatesResponse {
@@ -149,14 +151,21 @@ impl GateResponse {
 // }
 
 type Buck = fn(&TcpStream, &Response, &str, &str, Vec<(&&str, &&str)>);
-// type WsBuck = fn(&TcpStream, &Response, &WebSocket<&TcpStream>);
+type WsBuck = fn(&mut GatesDope, String);
 
 pub struct Gates<'billionaire> {
     port: String,
     middleware: Vec<Middleware<'billionaire>>,
     routes: Vec<Buck>,
-    // ws_routes: Vec<WsBuck>,
+    ws_routes: Vec<WsBuck>,
 }
+
+pub struct PrependBuffer<B> {
+    prepend_buffer: Cursor<Vec<u8>>,
+    inner: B,
+}
+
+pub type GatesDope<'billionaire> = WebSocket<PrependBuffer<&'billionaire TcpStream>>;
 
 impl<'gates> Gates<'gates> {
     pub fn new() -> Self {
@@ -164,7 +173,7 @@ impl<'gates> Gates<'gates> {
             port: String::new(),
             routes: Vec::new(),
             middleware: Vec::new(),
-            // ws_routes: Vec::new(),
+            ws_routes: Vec::new(),
         }
     }
     pub fn port(mut self, port: impl Into<String>) -> Self {
@@ -173,6 +182,10 @@ impl<'gates> Gates<'gates> {
     }
     pub fn routes(mut self, routes: &[Buck]) -> Self {
         self.routes = routes.to_vec();
+        self
+    }
+    pub fn ws_routes(mut self, routes: &[WsBuck]) -> Self {
+        self.ws_routes = routes.to_vec();
         self
     }
     // pub fn ws_routes(mut self, ws: &[WsBuck]) -> Self {
@@ -198,9 +211,32 @@ impl<'gates> Gates<'gates> {
     }
     fn handle_connection(&self, mut stream: &TcpStream) {
         let mut buffer = [0; 1024];
-        stream.read(&mut buffer);
+        let b = stream.read(&mut buffer).unwrap();
 
-        let response = String::from_utf8_lossy(&buffer);
+        let read_response = String::from_utf8_lossy(&buffer);
+
+        // println!("{}", read_response);
+        let response = Response::new(&buffer);
+        let path = response.path();
+        if read_response.contains("Sec-WebSocket") {
+            let buffer_read = buffer[..b].to_vec();
+            let prepend_buffer = PrependBuffer {
+                prepend_buffer: Cursor::new(buffer_read),
+                inner: stream,
+            };
+
+            let ws = accept(prepend_buffer);
+            match ws {
+                Ok(mut b) => {
+                    for route in self.ws_routes.iter() {
+                        route(&mut b, path.to_string());
+                    }
+                }
+                Err(err) => {
+                    println!("{}", err)
+                }
+            }
+        }
         // println!("{}", response)
         // if response.starts_with("OPTIONS") {
         //     let b = format!("HTTP/1.1 204 No Content\r\n{}", b);
@@ -222,7 +258,7 @@ impl<'gates> Gates<'gates> {
                         cors
                     );
                     cors_header.push_str(cors);
-                    if response.starts_with("OPTIONS") {
+                    if read_response.starts_with("OPTIONS") {
                         // println!("{}", b);
                         stream.write_all(b.as_bytes());
                         stream.flush();
@@ -241,9 +277,32 @@ impl<'gates> Gates<'gates> {
             // stream.flush();
         }
 
-        let response = Response::new(&buffer);
         for route in self.routes.iter() {
             route(stream, &response, cp, &cors_header, custome_headers.clone());
         }
+    }
+}
+
+impl<R> Read for PrependBuffer<R>
+where
+    R: Read,
+{
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        if self.prepend_buffer.position() < self.prepend_buffer.get_ref().len() as u64 {
+            return self.prepend_buffer.read(buf);
+        }
+        self.inner.read(buf)
+    }
+}
+
+impl<R> Write for PrependBuffer<R>
+where
+    R: Write,
+{
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        self.inner.write(buf)
+    }
+    fn flush(&mut self) -> std::io::Result<()> {
+        self.inner.flush()
     }
 }
