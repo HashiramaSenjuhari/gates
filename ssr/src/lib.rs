@@ -2,10 +2,11 @@
 
 #[macro_export]
 macro_rules! page {
-    ($main:expr,$billion_path:expr) => {{
+    ($main:expr,$billion_path:expr) => {
+      {
         {
           fn b(main: &str, billion_path: &str) -> Option<String> {
-            let bstruct = read_dir(main);
+            let bstruct = std::fs::read_dir(main);
             if let Ok(supers) = bstruct {
                 for file in supers {
                     let directory = file.unwrap();
@@ -18,7 +19,7 @@ macro_rules! page {
                     if d_path == billion_path {
                         // println!("=========================== billionairegreathaRi{}", d_path);
                         // println!("{}", d_path);
-                        let file = fs::read_to_string(d_path);
+                        let file = std::fs::read_to_string(d_path);
                         match file {
                             Err(error) => {
                                 return Some("".to_string());
@@ -41,7 +42,7 @@ macro_rules! page {
                         if proper {
                             let billionairegreathari = format!("{}", d_path);
                             // println!("{}", billionairegreathari);
-                            let book = fs::read_to_string(&billionairegreathari);
+                            let book = std::fs::read_to_string(&billionairegreathari);
                             match book {
                                 Err(err) => {
                                     println!("{}", err)
@@ -62,7 +63,7 @@ macro_rules! page {
             }
             None
         }
-        b($main,$billion_path)
+        b(&$main,&$billion_path)
         }
     }};
 }

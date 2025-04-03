@@ -8,6 +8,7 @@ use std::{io::Cursor, thread};
 pub use brotli;
 pub use flate2;
 pub use http_scrap::{HMap, QMap, Response};
+use sergy::page;
 use threadpool::GatesThread;
 pub use tokio_tungstenite::tungstenite::{Message, WebSocket, accept};
 pub use zstd;
@@ -158,6 +159,7 @@ pub struct Gates<'billionaire> {
     middleware: Vec<Middleware<'billionaire>>,
     routes: Vec<Buck>,
     ws_routes: Vec<WsBuck>,
+    statics: (String, String),
 }
 
 pub struct PrependBuffer<B> {
@@ -174,6 +176,7 @@ impl<'gates> Gates<'gates> {
             routes: Vec::new(),
             middleware: Vec::new(),
             ws_routes: Vec::new(),
+            statics: (String::new(), String::new()),
         }
     }
     pub fn port(mut self, port: impl Into<String>) -> Self {
@@ -186,6 +189,10 @@ impl<'gates> Gates<'gates> {
     }
     pub fn ws_routes(mut self, routes: &[WsBuck]) -> Self {
         self.ws_routes = routes.to_vec();
+        self
+    }
+    pub fn statics(mut self, dir: impl Into<String>, file: impl Into<String>) -> Self {
+        self.statics = (dir.into(), file.into());
         self
     }
     // pub fn ws_routes(mut self, ws: &[WsBuck]) -> Self {
@@ -253,9 +260,9 @@ impl<'gates> Gates<'gates> {
                 Middleware::RateLimit(route, allowed) => {
                     let ip = stream.peer_addr().unwrap();
 
-                    if path == route {
-                        continue;
-                    }
+                    // if path == route {
+                    //     continue;
+                    // }
                 }
             }
             // // println!("{}", b);
@@ -268,6 +275,12 @@ impl<'gates> Gates<'gates> {
         //     true => {
         let response = Response::new(&buffer);
         let path = response.path();
+
+        if !path.starts_with("/api") && !path.starts_with("/ws") {
+            let html = format!("app/{}/server.html", path);
+            let b = page!(self.statics.0, html);
+            println!("{}", html);
+        }
         // let path = path.to_string();
         // thread::spawn(move || {
         if read_response.contains("Sec-WebSocket") {

@@ -321,6 +321,7 @@ dependencies = [
  "rusty_gatesdope 0.1.1-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "serde",
  "serde_json",
+ "sergy",
  "syn",
  "tokio-tungstenite",
  "zstd",
