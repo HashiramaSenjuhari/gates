@@ -317,7 +317,7 @@ dependencies = [
  "http-scrap",
  "quote",
  "rusty-format",
- "rusty_gate 0.1.2-beta (registry+https://github.com/rust-lang/crates.io-index)",
+ "rusty_gate",
  "rusty_gatesdope 0.1.1-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "serde",
  "serde_json",
@@ -442,21 +442,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rusty_gate"
-version = "0.1.2-beta"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73d8f87fbd8549b0196c9e76c1b92133c0a9855a364391bdc6379a01feaa8e98"
-dependencies = [
- "flate2",
- "http-scrap",
- "quote",
- "rusty-format",
- "serde",
- "serde_json",
- "syn",
-]
-
-[[package]]
 name = "rusty_gatesdope"
 version = "0.1.1-beta"
 dependencies = [
@@ -511,6 +496,10 @@ dependencies = [
  "ryu",
  "serde",
 ]
+
+[[package]]
+name = "sergy"
+version = "0.1.0"
 
 [[package]]
 name = "sha1"

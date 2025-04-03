@@ -22,7 +22,7 @@ impl GatesThread {
                 loop {
                     let recv = receiver.lock().unwrap().recv();
                     if let Ok(task) = recv {
-                        // println!("{} {}", "running", i);
+                        println!("{} {}", "running", i);
                         task();
                         // println!("{}", "completed");
                     } else {

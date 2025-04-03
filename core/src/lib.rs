@@ -1,9 +1,9 @@
-use std::io::Cursor;
 pub use std::{
     collections::HashMap,
     io::{Read, Write},
     net::{TcpListener, TcpStream},
 };
+use std::{io::Cursor, thread};
 
 pub use brotli;
 pub use flate2;
@@ -97,7 +97,7 @@ pub enum Middleware<'b> {
     Cors(&'b str),
     Compression(&'b str),
     CustomeHeader(&'b str, &'b str),
-    // Jwt(bool),
+    RateLimit(String, bool), // Jwt(bool),
 }
 
 #[derive(Debug)]
@@ -216,27 +216,6 @@ impl<'gates> Gates<'gates> {
         let read_response = String::from_utf8_lossy(&buffer);
 
         // println!("{}", read_response);
-        let response = Response::new(&buffer);
-        let path = response.path();
-        if read_response.contains("Sec-WebSocket") {
-            let buffer_read = buffer[..b].to_vec();
-            let prepend_buffer = PrependBuffer {
-                prepend_buffer: Cursor::new(buffer_read),
-                inner: stream,
-            };
-
-            let ws = accept(prepend_buffer);
-            match ws {
-                Ok(mut b) => {
-                    for route in self.ws_routes.iter() {
-                        route(&mut b, path.to_string());
-                    }
-                }
-                Err(err) => {
-                    println!("{}", err)
-                }
-            }
-        }
         // println!("{}", response)
         // if response.starts_with("OPTIONS") {
         //     let b = format!("HTTP/1.1 204 No Content\r\n{}", b);
@@ -247,6 +226,7 @@ impl<'gates> Gates<'gates> {
         // } else {
         let mut cp = &"";
         let mut cors_header = String::new();
+        // let is_allowed: bool = true;
 
         // let mut stream = &*stream.write().unwrap();
         let mut custome_headers = Vec::new();
@@ -270,6 +250,13 @@ impl<'gates> Gates<'gates> {
                 Middleware::CustomeHeader(header, value) => {
                     custome_headers.push((header, value));
                 }
+                Middleware::RateLimit(route, allowed) => {
+                    let ip = stream.peer_addr().unwrap();
+
+                    if path == route {
+                        continue;
+                    }
+                }
             }
             // // println!("{}", b);
             // // println!("{}", "billionaire");
@@ -277,9 +264,43 @@ impl<'gates> Gates<'gates> {
             // stream.flush();
         }
 
-        for route in self.routes.iter() {
-            route(stream, &response, cp, &cors_header, custome_headers.clone());
+        // match is_allowed {
+        //     true => {
+        let response = Response::new(&buffer);
+        let path = response.path();
+        // let path = path.to_string();
+        // thread::spawn(move || {
+        if read_response.contains("Sec-WebSocket") {
+            let buffer_read = buffer[..b].to_vec();
+            let prepend_buffer = PrependBuffer {
+                prepend_buffer: Cursor::new(buffer_read),
+                inner: stream,
+            };
+            let ws = accept(prepend_buffer);
+            match ws {
+                Ok(mut b) => {
+                    for route in self.ws_routes.iter() {
+                        route(&mut b, path.to_string());
+                    }
+                }
+                Err(err) => {
+                    println!("{}", err)
+                }
+            }
         }
+        // });
+        // thread::spawn(move || {
+
+        // })
+        // println!("{}", "billionaire");
+        for route in self.routes.iter() {
+            // thread::spawn(move || {
+            route(stream, &response, cp, &cors_header, custome_headers.clone());
+            // });
+        }
+        // }
+        //     false => {}
+        // }
     }
 }
 
