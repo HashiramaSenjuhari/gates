@@ -29,7 +29,7 @@ fn main() {
     //     None
     // }
     // let billionaires = billionaire("app", "app/billionaires");
-    let billionaire = page!("app", "app/b/b/b/b.html");
+    let billionaire = page!("app", "app/billio/u/b.html");
     println!("{}", billionaire.unwrap());
     // println!("{:?}", billionaires);
     // let path = "app/b/explore/b.html";

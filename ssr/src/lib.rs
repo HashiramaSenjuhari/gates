@@ -17,6 +17,7 @@ macro_rules! page {
                     // println!("{} {}", d_path, billion_path);
                     // app\billionaires\billionaire.html app/billionaires/billionaire.html
                     if d_path == billion_path {
+                        println!("{} {}",d_path,billion_path);
                         // println!("=========================== billionairegreathaRi{}", d_path);
                         // println!("{}", d_path);
                         let file = std::fs::read_to_string(d_path);
@@ -33,12 +34,20 @@ macro_rules! page {
                         let mut proper = false;
                         // let mut billionaires = Vec::new();
                         for (b, file) in bfile.iter().enumerate() {
+                            // println!("{:?}",proper);
+                            // println!("{} {}",file,bpath[b]);
                             if *file != bpath[b] && file.starts_with("[") && file.ends_with("]") {
+                                // println!("=================== {}",bpath[b]);
                                 proper = true;
+                                // proper.2 += 1;
                             } else if *file != bpath[b] && !file.starts_with("[") && !file.ends_with("]") {
+                                // println!("billionaireeeeeeeeeeeeeeeeee {}",bpath[b]);
                                 proper = false;
+                                break;
+                                // proper.1 += 1;
                             }
                         }
+                        println!("{:?}",proper);
                         if proper {
                             let billionairegreathari = format!("{}", d_path);
                             // println!("{}", billionairegreathari);

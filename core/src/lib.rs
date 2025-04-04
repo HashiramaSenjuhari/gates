@@ -8,6 +8,7 @@ use std::{io::Cursor, thread};
 pub use brotli;
 pub use flate2;
 pub use http_scrap::{HMap, QMap, Response};
+use rusty_rl::FixedLimit;
 use sergy::page;
 use threadpool::GatesThread;
 pub use tokio_tungstenite::tungstenite::{Message, WebSocket, accept};
@@ -93,12 +94,15 @@ pub struct Return {
     pub headers: Option<Vec<String>>,
     pub encoding: Option<String>,
 }
-
 pub enum Middleware<'b> {
     Cors(&'b str),
     Compression(&'b str),
-    CustomeHeader(&'b str, &'b str),
-    RateLimit(String, bool), // Jwt(bool),
+    CustomeHeader(&'b str, &'b str), // Jwt(bool),
+}
+
+pub enum RL<'b> {
+    /// takes ## Total Request and Interval
+    FixedLimit(usize, u64, &'b str), // FixedBucket()
 }
 
 #[derive(Debug)]
@@ -154,12 +158,19 @@ impl GateResponse {
 type Buck = fn(&TcpStream, &Response, &str, &str, Vec<(&&str, &&str)>);
 type WsBuck = fn(&mut GatesDope, String);
 
+pub enum Static<'b> {
+    All,
+    Pages(&'b [&'b str]),
+    CustomePage(&'b [&'b str], &'b str),
+    AllAndCustome404(&'b str),
+}
 pub struct Gates<'billionaire> {
     port: String,
     middleware: Vec<Middleware<'billionaire>>,
     routes: Vec<Buck>,
     ws_routes: Vec<WsBuck>,
-    statics: (String, String),
+    statics: (String, Static<'billionaire>),
+    rl: Option<RL<'billionaire>>,
 }
 
 pub struct PrependBuffer<B> {
@@ -176,7 +187,8 @@ impl<'gates> Gates<'gates> {
             routes: Vec::new(),
             middleware: Vec::new(),
             ws_routes: Vec::new(),
-            statics: (String::new(), String::new()),
+            statics: (String::new(), Static::All),
+            rl: None,
         }
     }
     pub fn port(mut self, port: impl Into<String>) -> Self {
@@ -191,8 +203,12 @@ impl<'gates> Gates<'gates> {
         self.ws_routes = routes.to_vec();
         self
     }
-    pub fn statics(mut self, dir: impl Into<String>, file: impl Into<String>) -> Self {
-        self.statics = (dir.into(), file.into());
+    pub fn statics(mut self, dir: impl Into<String>, file: Static<'gates>) -> Self {
+        self.statics = (dir.into(), file);
+        self
+    }
+    pub fn rate_limit(mut self, kind: RL<'gates>) -> Self {
+        self.rl = Some(kind);
         self
     }
     // pub fn ws_routes(mut self, ws: &[WsBuck]) -> Self {
@@ -206,31 +222,102 @@ impl<'gates> Gates<'gates> {
     pub fn run(self) {
         let listener = TcpListener::bind(&self.port).unwrap();
         let gates_threads = GatesThread::new(4);
+        let mut s: (Option<FixedLimit>, &str) = (None, "");
+        if let Some(ref b) = self.rl {
+            match b {
+                RL::FixedLimit(maximum, interval, route) => {
+                    let allowed = FixedLimit::new().maximum_request(*maximum, *interval);
+                    s = (Some(allowed), route);
+                }
+            }
+        }
         for stream in listener.incoming() {
-            let stream = stream.unwrap();
-            // let stream = Arc::new(RwLock::new(stream));
-            // let b = stream.try_clone().unwrap();
-            let value = self.handle_connection(&stream);
+            let mut stream = stream.unwrap();
+            let value = self.handle_connection(&stream, &mut s);
             gates_threads.execute(move || {
                 value;
             });
+            // let stream = Arc::new(RwLock::new(stream));
+            // let b = stream.try_clone().unwrap();
+            println!("{}", "billionairegreathari");
         }
     }
-    fn handle_connection(&self, mut stream: &TcpStream) {
+    fn handle_connection(
+        &self,
+        mut stream: &TcpStream,
+        ratelimit: &mut (Option<FixedLimit>, &str),
+    ) {
         let mut buffer = [0; 1024];
         let b = stream.read(&mut buffer).unwrap();
 
         let read_response = String::from_utf8_lossy(&buffer);
+        let response = Response::new(&buffer);
+        let path = response.path();
 
-        // println!("{}", read_response);
-        // println!("{}", response)
-        // if response.starts_with("OPTIONS") {
-        //     let b = format!("HTTP/1.1 204 No Content\r\n{}", b);
-        //     println!("{}", b);
-        //     println!("{}", "billionaire");
-        //     stream.write_all(b.as_bytes());
-        //     stream.flush();
-        // } else {
+        match ratelimit {
+            (Some(b), route) => {
+                // println!("{}", route);
+                if *route == path {
+                    // println!("{}", "hyguiokjyiiuoiopii0op");
+                    let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
+                    let page = format!(
+                        "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                        "billionairegreathari".len(),
+                        "billionairegreathari"
+                    );
+                    let is_allowed = allowed.is_allowed;
+                    // println!("{}", is_allowed);
+                    if !is_allowed {
+                        // println!("{}", page);
+                        stream.write_all(page.as_bytes());
+                        stream.flush();
+                        return;
+                    }
+                } else if route.contains("/*") {
+                    // println!("{}", route);
+                    let bi = route.replace("*", "");
+                    // println!("{}", bi);
+                    // println!("{}", path);
+                    if path.starts_with(&bi) {
+                        let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
+                        println!("{}", allowed.remaning_count);
+                        if !allowed.is_allowed {
+                            let page = format!(
+                                "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                                "billionaires".len(),
+                                "billionaires"
+                            );
+                            stream.write_all(page.as_bytes());
+                            stream.flush();
+                        }
+                    }
+                } else if *route == "*" {
+                    // println!("{}", "________________________________________________");
+                    let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
+                    let page = format!(
+                        "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                        "billionairegreathari".len(),
+                        "billionairegreathari"
+                    );
+                    let is_allowed = allowed.is_allowed;
+                    if !is_allowed {
+                        // println!("{}", page);
+                        stream.write_all(page.as_bytes());
+                        stream.flush();
+                        return;
+                    }
+                }
+                // else if *route != "*" && route.contains("/*") && !is_allowed {
+                // let b = route.replace("*", "");
+                // if path.starts_with(&b) {}
+                // }
+            }
+            _ => {}
+        }
+        // println!(
+        //     "======================================================{}",
+        //     "billionaire"
+        // );
         let mut cp = &"";
         let mut cors_header = String::new();
         // let is_allowed: bool = true;
@@ -257,13 +344,6 @@ impl<'gates> Gates<'gates> {
                 Middleware::CustomeHeader(header, value) => {
                     custome_headers.push((header, value));
                 }
-                Middleware::RateLimit(route, allowed) => {
-                    let ip = stream.peer_addr().unwrap();
-
-                    // if path == route {
-                    //     continue;
-                    // }
-                }
             }
             // // println!("{}", b);
             // // println!("{}", "billionaire");
@@ -273,13 +353,142 @@ impl<'gates> Gates<'gates> {
 
         // match is_allowed {
         //     true => {
-        let response = Response::new(&buffer);
-        let path = response.path();
 
         if !path.starts_with("/api") && !path.starts_with("/ws") {
-            let html = format!("app/{}/server.html", path);
-            let b = page!(self.statics.0, html);
-            println!("{}", html);
+            let bmode = &self.statics.1;
+            match bmode {
+                Static::All => {
+                    let html = format!("{}{}/server.html", self.statics.0, path);
+                    println!("{}", html);
+                    let b = page!(self.statics.0, html);
+                    // println!("{}", b.as_ref().unwrap());
+                    match b {
+                        Some(b) => {
+                            let b = format!(
+                                "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                b.len(),
+                                b
+                            );
+                            println!("{}", b);
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                        None => {
+                            let b = format!(
+                                "HTTP/1.1 404 NOT FOUND\r\nContent-Length: {}\r\n\r\n{}",
+                                "not found".len(),
+                                "not found"
+                            );
+                            println!("{}", b);
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                    }
+                    // println!("{}", html);
+                }
+                Static::Pages(pages) => {
+                    for page in pages.iter() {
+                        // println!("{}", page);
+                        if path == *page {
+                            let html = format!("{}{}/server.html", self.statics.0, page);
+                            // println!("{}", html);
+                            let b = page!(self.statics.0, html);
+                            // println!("{}", &b.clone().unwrap());
+                            let billionaires = match b {
+                                Some(billionaire) => {
+                                    let b = format!(
+                                        "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                        billionaire.len(),
+                                        billionaire
+                                    );
+                                    // println!("{}", b);
+                                    b
+                                }
+                                None => {
+                                    let b = format!(
+                                        "HTTP/1.1 404 NOT FOUND\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                        "not found".len(),
+                                        "not found"
+                                    );
+                                    b
+                                }
+                            };
+                            stream.write_all(billionaires.as_bytes());
+                            stream.flush();
+                        } else if !pages.contains(&path) {
+                            let b = format!(
+                                "HTTP/1.1 404 NOT FOUND\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                "notfound".len(),
+                                "notfound"
+                            );
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                    }
+                }
+                Static::CustomePage(pages, notfound) => {
+                    for page in pages.iter() {
+                        if path == *page {
+                            let page = page!(self.statics.0, page);
+                            match page {
+                                Some(page) => {
+                                    let b = format!(
+                                        "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                        page.len(),
+                                        page
+                                    );
+                                    stream.write_all(b.as_bytes());
+                                    stream.flush();
+                                }
+                                None => {
+                                    let notfound = format!(
+                                        "HTTP/1.1 404 NOT FOUND\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                        notfound.len(),
+                                        notfound
+                                    );
+                                    stream.write_all(notfound.as_bytes());
+                                    stream.flush();
+                                }
+                            }
+                        } else if !pages.contains(&path) {
+                            let b = format!(
+                                "HTTP/1.1 404 NOT FOUND\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                notfound.len(),
+                                notfound
+                            );
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                    }
+                }
+                Static::AllAndCustome404(page) => {
+                    let html = format!("app{}/server.html", path);
+                    let b = page!(self.statics.0, html);
+                    match b {
+                        Some(b) => {
+                            let b = format!(
+                                "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                b.len(),
+                                b
+                            );
+                            // println!("{}", b);
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                        None => {
+                            let b = format!(
+                                "HTTP/1.1 404 NOT FOUND\r\nContent-Type: text/html\r\nContent-Length: {}\r\n\r\n{}",
+                                page.len(),
+                                page
+                            );
+                            // println!("{}", b);
+                            stream.write_all(b.as_bytes());
+                            stream.flush();
+                        }
+                    }
+                }
+            }
+            return;
         }
         // let path = path.to_string();
         // thread::spawn(move || {
