@@ -318,11 +318,11 @@ dependencies = [
  "quote",
  "rusty-format",
  "rusty-rl",
- "rusty_gate",
+ "rusty_gate 0.1.2-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "rusty_gatesdope 0.1.1-beta (registry+https://github.com/rust-lang/crates.io-index)",
  "serde",
  "serde_json",
- "sergy",
+ "sergy 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn",
  "tokio-tungstenite",
  "zstd",
@@ -450,6 +450,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "rusty_gate"
+version = "0.1.2-beta"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73d8f87fbd8549b0196c9e76c1b92133c0a9855a364391bdc6379a01feaa8e98"
+dependencies = [
+ "flate2",
+ "http-scrap",
+ "quote",
+ "rusty-format",
+ "serde",
+ "serde_json",
+ "syn",
+]
+
+[[package]]
 name = "rusty_gatesdope"
 version = "0.1.1-beta"
 dependencies = [
@@ -508,6 +523,12 @@ dependencies = [
 [[package]]
 name = "sergy"
 version = "0.1.2"
+
+[[package]]
+name = "sergy"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4867d3d215f0ade5bb7f94d24aabc7949bbb4dcf5878309f229ffa037279ff54"
 
 [[package]]
 name = "sha1"
