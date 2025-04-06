@@ -244,7 +244,7 @@ impl<'gates> Gates<'gates> {
             });
             // let stream = Arc::new(RwLock::new(stream));
             // let b = stream.try_clone().unwrap();
-            println!("{}", "billionairegreathari");
+            // println!("{}", "billionairegreathari");
         }
     }
     fn handle_connection(
@@ -255,7 +255,7 @@ impl<'gates> Gates<'gates> {
         let mut buffer = [0; 1024];
         let mut string = String::new();
         let b = stream.read(&mut buffer).unwrap();
-        println!("{}", string);
+        // println!("{}", string);
 
         let read_response = String::from_utf8_lossy(&buffer);
         let response = Response::new(&read_response.to_string());
@@ -289,7 +289,7 @@ impl<'gates> Gates<'gates> {
                         if path.starts_with(&bi) {
                             let allowed =
                                 b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
-                            println!("{}", allowed.remaning_count);
+                            // println!("{}", allowed.remaning_count);
                             if !allowed.is_allowed {
                                 let page = format!(
                                     "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
