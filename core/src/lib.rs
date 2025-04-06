@@ -3,7 +3,10 @@ pub use std::{
     io::{Read, Write},
     net::{TcpListener, TcpStream},
 };
-use std::{io::Cursor, thread};
+use std::{
+    io::{BufReader, Cursor},
+    thread,
+};
 
 pub use brotli;
 pub use flate2;
@@ -170,7 +173,7 @@ pub struct Gates<'billionaire> {
     routes: Vec<Buck>,
     ws_routes: Vec<WsBuck>,
     statics: (String, Static<'billionaire>),
-    rl: Option<RL<'billionaire>>,
+    rl: Vec<Option<RL<'billionaire>>>,
 }
 
 pub struct PrependBuffer<B> {
@@ -188,7 +191,7 @@ impl<'gates> Gates<'gates> {
             middleware: Vec::new(),
             ws_routes: Vec::new(),
             statics: (String::new(), Static::All),
-            rl: None,
+            rl: Vec::new(),
         }
     }
     pub fn port(mut self, port: impl Into<String>) -> Self {
@@ -208,7 +211,7 @@ impl<'gates> Gates<'gates> {
         self
     }
     pub fn rate_limit(mut self, kind: RL<'gates>) -> Self {
-        self.rl = Some(kind);
+        self.rl.push(Some(kind));
         self
     }
     // pub fn ws_routes(mut self, ws: &[WsBuck]) -> Self {
@@ -222,12 +225,14 @@ impl<'gates> Gates<'gates> {
     pub fn run(self) {
         let listener = TcpListener::bind(&self.port).unwrap();
         let gates_threads = GatesThread::new(4);
-        let mut s: (Option<FixedLimit>, &str) = (None, "");
-        if let Some(ref b) = self.rl {
-            match b {
-                RL::FixedLimit(maximum, interval, route) => {
-                    let allowed = FixedLimit::new().maximum_request(*maximum, *interval);
-                    s = (Some(allowed), route);
+        let mut s: Vec<(Option<FixedLimit>, &str)> = Vec::new();
+        for b in self.rl.iter() {
+            if let Some(b) = b {
+                match b {
+                    RL::FixedLimit(maximum, interval, route) => {
+                        let allowed = FixedLimit::new().maximum_request(*maximum, *interval);
+                        s.push((Some(allowed), route));
+                    }
                 }
             }
         }
@@ -245,74 +250,79 @@ impl<'gates> Gates<'gates> {
     fn handle_connection(
         &self,
         mut stream: &TcpStream,
-        ratelimit: &mut (Option<FixedLimit>, &str),
+        ratelimit: &mut Vec<(Option<FixedLimit>, &str)>,
     ) {
         let mut buffer = [0; 1024];
+        let mut string = String::new();
         let b = stream.read(&mut buffer).unwrap();
+        println!("{}", string);
 
         let read_response = String::from_utf8_lossy(&buffer);
-        let response = Response::new(&buffer);
+        let response = Response::new(&read_response.to_string());
         let path = response.path();
 
-        match ratelimit {
-            (Some(b), route) => {
-                // println!("{}", route);
-                if *route == path {
-                    // println!("{}", "hyguiokjyiiuoiopii0op");
-                    let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
-                    let page = format!(
-                        "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
-                        "billionairegreathari".len(),
-                        "billionairegreathari"
-                    );
-                    let is_allowed = allowed.is_allowed;
-                    // println!("{}", is_allowed);
-                    if !is_allowed {
-                        // println!("{}", page);
-                        stream.write_all(page.as_bytes());
-                        stream.flush();
-                        return;
-                    }
-                } else if route.contains("/*") {
+        for b in ratelimit {
+            match b {
+                (Some(b), route) => {
                     // println!("{}", route);
-                    let bi = route.replace("*", "");
-                    // println!("{}", bi);
-                    // println!("{}", path);
-                    if path.starts_with(&bi) {
+                    if *route == path {
+                        // println!("{}", "hyguiokjyiiuoiopii0op");
                         let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
-                        println!("{}", allowed.remaning_count);
-                        if !allowed.is_allowed {
-                            let page = format!(
-                                "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
-                                "billionaires".len(),
-                                "billionaires"
-                            );
+                        let page = format!(
+                            "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                            "billionairegreathari".len(),
+                            "billionairegreathari"
+                        );
+                        let is_allowed = allowed.is_allowed;
+                        // println!("{}", is_allowed);
+                        if !is_allowed {
+                            // println!("{}", page);
                             stream.write_all(page.as_bytes());
                             stream.flush();
+                            return;
+                        }
+                    } else if route.contains("/*") {
+                        // println!("{}", route);
+                        let bi = route.replace("*", "");
+                        // println!("{}", bi);
+                        // println!("{}", path);
+                        if path.starts_with(&bi) {
+                            let allowed =
+                                b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
+                            println!("{}", allowed.remaning_count);
+                            if !allowed.is_allowed {
+                                let page = format!(
+                                    "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                                    "billionaires".len(),
+                                    "billionaires"
+                                );
+                                stream.write_all(page.as_bytes());
+                                stream.flush();
+                            }
+                        }
+                    } else if *route == "*" {
+                        // println!("{}", "________________________________________________");
+                        let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
+                        let page = format!(
+                            "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
+                            "billionairegreathari".len(),
+                            "billionairegreathari"
+                        );
+                        let is_allowed = allowed.is_allowed;
+                        if !is_allowed {
+                            // println!("{}", page);
+                            stream.write_all(page.as_bytes());
+                            stream.flush();
+                            return;
                         }
                     }
-                } else if *route == "*" {
-                    // println!("{}", "________________________________________________");
-                    let allowed = b.allow(stream.peer_addr().unwrap().ip().to_string(), *route);
-                    let page = format!(
-                        "HTTP/1.1 429 Too Many Request\r\nContent-Length: {}\r\n\r\n{}",
-                        "billionairegreathari".len(),
-                        "billionairegreathari"
-                    );
-                    let is_allowed = allowed.is_allowed;
-                    if !is_allowed {
-                        // println!("{}", page);
-                        stream.write_all(page.as_bytes());
-                        stream.flush();
-                        return;
-                    }
+                    // else if *route != "*" && route.contains("/*") && !is_allowed {
+                    // let b = route.replace("*", "");
+                    // if path.starts_with(&b) {}
+                    // }
                 }
-                // else if *route != "*" && route.contains("/*") && !is_allowed {
-                // let b = route.replace("*", "");
-                // if path.starts_with(&b) {}
-                // }
+                _ => {}
             }
-            _ => {}
         }
         // println!(
         //     "======================================================{}",
@@ -359,7 +369,7 @@ impl<'gates> Gates<'gates> {
             match bmode {
                 Static::All => {
                     let html = format!("{}{}/server.html", self.statics.0, path);
-                    println!("{}", html);
+                    // println!("{}", html);
                     let b = page!(self.statics.0, html);
                     // println!("{}", b.as_ref().unwrap());
                     match b {
@@ -369,7 +379,7 @@ impl<'gates> Gates<'gates> {
                                 b.len(),
                                 b
                             );
-                            println!("{}", b);
+                            // println!("{}", b);
                             stream.write_all(b.as_bytes());
                             stream.flush();
                         }
@@ -379,7 +389,7 @@ impl<'gates> Gates<'gates> {
                                 "not found".len(),
                                 "not found"
                             );
-                            println!("{}", b);
+                            // println!("{}", b);
                             stream.write_all(b.as_bytes());
                             stream.flush();
                         }
@@ -515,11 +525,11 @@ impl<'gates> Gates<'gates> {
 
         // })
         // println!("{}", "billionaire");
-        for route in self.routes.iter() {
-            // thread::spawn(move || {
-            route(stream, &response, cp, &cors_header, custome_headers.clone());
-            // });
-        }
+        // for route in self.routes.iter() {
+        //     // thread::spawn(move || {
+        //     route(stream, &response, cp, &cors_header, custome_headers.clone());
+        //     // });
+        // }
         // }
         //     false => {}
         // }

@@ -245,9 +245,9 @@ dependencies = [
 
 [[package]]
 name = "http-scrap"
-version = "0.1.1134"
+version = "0.1.1135"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b97b5d245c0e9f3d6da7fdf5ad504e279e1a172e8b347532f928bdbf3714a1f"
+checksum = "180b2fdb22d668d937f8e4cd00601b7a6249a36b0dfd54d098a9df08560d7b62"
 
 [[package]]
 name = "httparse"
@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "nous"
-version = "0.1.8-beta"
+version = "0.1.9-beta"
 dependencies = [
  "brotli",
  "flate2",
