@@ -17,7 +17,7 @@ macro_rules! page {
                     // println!("{} {}", d_path, billion_path);
                     // app\billionaires\billionaire.html app/billionaires/billionaire.html
                     if d_path == billion_path {
-                        println!("{} {}",d_path,billion_path);
+                        // println!("{} {}",d_path,billion_path);
                         // println!("=========================== billionairegreathaRi{}", d_path);
                         // println!("{}", d_path);
                         let file = std::fs::read_to_string(d_path);
@@ -47,7 +47,7 @@ macro_rules! page {
                                 // proper.1 += 1;
                             }
                         }
-                        println!("{:?}",proper);
+                        // println!("{:?}",proper);
                         if proper {
                             let billionairegreathari = format!("{}", d_path);
                             // println!("{}", billionairegreathari);

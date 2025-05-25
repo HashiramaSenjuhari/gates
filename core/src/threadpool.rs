@@ -16,7 +16,7 @@ impl GatesThread {
         let receiver = Arc::new(Mutex::new(rx));
 
         let mut workers = Vec::with_capacity(size);
-        for i in 0..size {
+        for _ in 0..size {
             let receiver = Arc::clone(&receiver);
             let worker = thread::spawn(move || {
                 loop {
@@ -41,6 +41,6 @@ impl GatesThread {
     where
         F: FnOnce() + Send + 'static,
     {
-        self.sender.send(Box::new(task));
+        let _ = self.sender.send(Box::new(task));
     }
 }
